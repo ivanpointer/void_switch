@@ -47,7 +47,7 @@ MAGNET_VOID = 0.2; // [0.1:0.1:3]
     * You're just going to have to experiment with a few different values here to see what you like.
 */
 // 2-4mm of travel is traditional for mechanical key switches
-TOTAL_TRAVEL = 4; // [1:0.1:20]
+TOTAL_TRAVEL = 3.52; // [1:0.1:20]
 // How much extra space (up/down) will be used to contain the stem (does not impact TOTAL_TRAVEL).  Longer == less wobble BUT the switch will be taller.  Doesn't really impact the feel of the switch otherwise.
 SHEATH_LENGTH = 0.3; // [0:0.1:2]
 // Wiggle room inside the sheath for the stem. If your stem doesn't effortlessly slide inside the sheath you need to increase the tolerance or check your printing layer height isn't messing with it.
@@ -138,7 +138,7 @@ SHEATH_LIP_OVERHANG = 1;
 SHEATH_NOTCH_ANGLE = 1;
 // NOTE: Set SHEATH_NOTCH_ANGLE to 0 to have perfectly straight notches >< (not recommended).  If you do this you'll need to be more careful with your STEM_TOLERANCE setting.
 // How thick the little wall at the end of the sheath will be.  By default there's no wall/end stop which means that the stem can be easily removed but will also smack into whatever's underneath the switch when you press it (e.g. the sensor or LED on the PCB or the case covering those things).  If you set this to something like 0.8 you'll get a wall of sorts that prevents the stem from coming out (like, ever haha) and will also prevent it from hitting anything below the switch.  It makes it so you can press pretty hard on keycaps (to insert them) without having to worry that your brute strength will break your LEDs/sensors.  NOTE: This feature requires some flex in the plastic body of the sheath in order for the stem to snap into its channel so resin users be forewarned.
-SHEATH_END_STOP_THICKNESS = 0.0; // [0.0:0.1:1.2]
+SHEATH_END_STOP_THICKNESS = 0.4; // [0.0:0.1:1.2]
 // NOTE: If your keyboard has something underneath the switch at the correct TOTAL_TRAVEL distance you don't need the end stopper and can set SHEATH_END_STOP_THICKNESS to 0.  If you *do* want a stopper a value of 0.5 is usually good for a 0.4mm nozzle.
 // These SHEATH_CLIP_* parameters control the little clips on the sheath that let it snap-fit into the body (probably leave these alone unless you're working with something other than PLA/PETG that's either much softer or much more brittle)...
 // Controls the thickness of the clips on the side of the sheath (i.e. how much they stick out)
@@ -151,7 +151,7 @@ SHEATH_CLIP_WIDTH = 2;
 SHEATH_BOTTOM_CLIP_WIDTH = 1.5;
 
 // OpenSCAD's rendering resolution (64 worked well for me but feel free to go higher if you're patient--unlike me)
-$fn = 128;
+$fn = 64;
 
 /* [What to Render] */
 
@@ -324,7 +324,6 @@ for (item=RENDER) {
                 sheath_cherry_cross(SHEATH_LENGTH, STEM_DIAMETER, TOTAL_TRAVEL, COVER_THICKNESS,
                     stem_tolerance=STEM_TOLERANCE,
                     sheath_tolerance=SHEATH_TOLERANCE,
-                    magnet_wall_thickness=SHEATH_MAGNET_WALL_THICKNESS,
                     wall_thickness=SHEATH_WALL_THICKNESS,
                     lip_height=SHEATH_LIP_HEIGHT,
                     lip_overhang=SHEATH_LIP_OVERHANG,
@@ -335,6 +334,7 @@ for (item=RENDER) {
                     magnet_diameter=STEM_MAGNET_DIAMETER,
                     magnet_tolerance=MAGNET_TOLERANCE,
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
+                    magnet_wall_thickness=SHEATH_MAGNET_WALL_THICKNESS,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
                     magnet_void=MAGNET_VOID,
                     snap_pip_height=SHEATH_CLIP_HEIGHT,
