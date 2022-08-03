@@ -10,7 +10,7 @@
 
 */
 
-$fn = 64;
+$fn = 128;
 
 use <utils.scad>
 
@@ -19,9 +19,13 @@ LEVITATOR_THICKNESS = 0.4; // How thick the floor will be/how much of the cross 
 WALL_THICKNESS = 0.8; // How thick around the edges you want it to be (0.8 is fine and fits under most keycaps)
 STEM_TOLERANCE = 0.15; // How tight the cross-shaped cutout will be
 MAGNET_TOLERANCE = 0.2; // Only used with MAGNET_HEIGHT (because we have some bridging)
-MAGNET_DIAMETER = 4;
-MAGNET_HEIGHT = 2;
 MAGNET_DISTANCE = 3.75; // Distance from the center of the stem where the magnet goes
+
+// Diameter of the magnet that sits on top of the switch body
+MAGNET_DIAMETER = 3.93; // [3:1:5] 4 - 5.97
+// Thickness of the top magnet (use calipers to measure it!). NOTE: Cheap "4x2mm" N35 magnets are usually 4x1.7 or 4x1.8mm.  MEASURE YOUR MAGNETS WITH CALIPERS TO CHECK!
+MAGNET_HEIGHT = 1.73; // [1:0.1:3] 1.7 - 2.97
+// NOTE: CHINESE SELLERS LIE! ~1.7mm is the norm for "4x2mm" N35 magnets... Bastards
 
 // Constants
 CHERRY_CYLINDER_DIAMETER = 5.47; // Represents the keycap's stem (female side of the +)
