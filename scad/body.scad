@@ -41,7 +41,7 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
                         r=corner_radius, center=true);
                 }
             // Generate the main body of the switch
-            difference() {
+        difference() {
                 translate([0,0,cover_thickness]) hull() {
                     translate([0,0,plate_thickness/2]) squarish_rpoly(
                         xy=[length-plate_tolerance/2, width-plate_tolerance/2],
@@ -95,7 +95,7 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
                             ], center=true);
                 }
                 // Add a little hole that ensures the bridging goes right
-                translate([
+                 translate([
                   -length/2+top_magnet_diameter/1.65,
                   -width/2+top_magnet_diameter/1.65,
                   -(magnet_wall_thickness+droop_extra)/2+top_magnet_height+magnet_wall_thickness+droop_extra-top_magnet_cover_thickness+sheath_length])

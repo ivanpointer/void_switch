@@ -41,24 +41,24 @@ use <utils.scad>
 // IMPORTANT VARIABLES (customize to your liking):
 
 // The amount of space interposed between the magnets. Controls how strong the switch will be; The higher the value the less force will be required to press the switch. Look at the console output to see the calculated switch strength (e.g. "NOTE: ESTIMATED STRENGTH/FORCE: ~56g"). Highly dependent on the strength and thickness of your magnets.
-MAGNET_VOID = 0.6; // [0.1:0.1:3]
+MAGNET_VOID = 0.2; // [0.1:0.1:3]
 /* MAGNET_VOID NOTES:
     * The higher the MAGNET_VOID the lower the (initial) force to move (press) the switch.
     * You're just going to have to experiment with a few different values here to see what you like.
 */
 // 2-4mm of travel is traditional for mechanical key switches
-TOTAL_TRAVEL = 4; // [1:0.1:20]
+TOTAL_TRAVEL = 3.48; // [1:0.1:20]
 // How much extra space (up/down) will be used to contain the stem (does not impact TOTAL_TRAVEL).  Longer == less wobble BUT the switch will be taller.  Doesn't really impact the feel of the switch otherwise.
 SHEATH_LENGTH = 0.3; // [0:0.1:2]
 // Wiggle room inside the sheath for the stem. If your stem doesn't effortlessly slide inside the sheath you need to increase the tolerance or check your printing layer height isn't messing with it.
-STEM_TOLERANCE = 0.13; // [0.01:0.01:0.3]
+STEM_TOLERANCE = 0.08; // [0.01:0.01:0.3] 0.16 0.18 0.2
 //   ^ IMPORTANT!  If the stem doesn't effortlessly slide in and out of the sheath or has far too much back-corner/front-corner wobble double-check that your printing layer height isn't messing with the tolerances: With STEM_WALL_THICKNESS=1.2 the bottom layer of the sheath where it touches the stem is precisely 1.68mm tall.  Your layer height can impact this value considerably which is why a 0.28mm layer height is recommended (for FDM) as this results in that layer being precisely 1.68mm above the bed.
 // NOTE: Also remember that YOU CAN ALWAYS SAND THE STEM IF IT'S TOO TIGHT.  As long as you get up to like 600 grit (or higher) your switch should still be nice and smooth (eventually--after some normal use).
 // NOTE: You can visualize STEM_TOLERANCE by uncommenting the "visualize" RENDER bits at the top of this file.
 // Diameter of the magnet that sits on top of the switch body
-BODY_MAGNET_DIAMETER = 4; // [3:1:5]
+BODY_MAGNET_DIAMETER = 4.04; // [3:1:5] 4 - 5.97
 // Thickness of the top magnet (use calipers to measure it!). NOTE: Cheap "4x2mm" N35 magnets are usually 4x1.7 or 4x1.8mm.  MEASURE YOUR MAGNETS WITH CALIPERS TO CHECK!
-BODY_MAGNET_HEIGHT = 1.7; // [1:0.1:3]
+BODY_MAGNET_HEIGHT = 1.73; // [1:0.1:3] 1.7 - 2.97
 // NOTE: CHINESE SELLERS LIE! ~1.7mm is the norm for "4x2mm" N35 magnets... Bastards
 
 // Only used when calculating the strength of your switch (it gets spit out to the OpenSCAD console... "NOTE: ESTIMATED STRENGTH/FORCE: ~56g")
@@ -75,13 +75,20 @@ STEM_MAGNET_HEIGHT = BODY_MAGNET_HEIGHT; // The switch body/stem will be automat
 STEM_CROSS_X_EXTRA = 0.0; // [-0.3:0.05:0.3]
 // Controls how thick the | part of the Cherry stem cross (+) will be.  Increase this if your keycaps are too loose.  Use a negative value if your keycaps are too tight.
 STEM_CROSS_Y_EXTRA = 0.0; // [-0.3:0.05:0.3]
+
+// Goes at the end of the stem to work around 3D printing "corner bulge" that can result in stems getting stuck down
+STEM_TAPER_LENGTH = 0.5;
+
+// Extra height added to the stem - helpful if the stem gets stuck in the sheath.
+STEM_EXTRA = STEM_TAPER_LENGTH;
+
 // Wiggle room (from a magnet height perspective, not from a diameter perspective)
 MAGNET_TOLERANCE = 0.1;
 // How much room (diameter-wise) the magnet gets inside the stem.  Negative tolerance by default to hold the magnet tight (really press it in there). PLA and PETG should flex a bit and hold it strongly. For resin you'll probably want to set this to 0 and put some resin in the hole before inserting the magnet to hold it nice and strong.
-STEM_MAGNET_DIAMETER_TOLERANCE = -0.1;
+STEM_MAGNET_DIAMETER_TOLERANCE = 0;
 // TIP FOR RESIN PRINTERS: Set STEM_MAGNET_DIAMETER_TOLERANCE to 0 or 0.05 to avoid cracking and and squirt some resin in there before inserting the magnet for a strong hold.
 // How much plastic goes around the magnets (not usually important; you can make this smaller if you use a nozzle smaller than 0.4mm to increase your switch's maximum theoretical strength)
-MAGNET_WALL_THICKNESS = 0.5;
+MAGNET_WALL_THICKNESS = 0.52; // EDIT: 0.5
 // NOTE: MAGNET_WALL_THICKNESS is constrained by the STEM_DIAMETER.  So if it's not getting thicker on the sides you'll need to increase STEM_DIAMETER to give it more room.
 // Length of the switch_body() (See related: COVER_OVERHANG below)
 BODY_LENGTH = 14.2;
@@ -92,7 +99,7 @@ BODY_HEIGHT = 0;
 // The corner radius around the edges of the switch body
 BODY_CORNER_RADIUS = 0.5;
 // How thick the walls (just the sides) of the switch will be (in general)
-WALL_THICKNESS = 1.35;
+WALL_THICKNESS = 1.52;
 // How much the lip sticks out above the top of the switch body.
 SHEATH_LIP_HEIGHT = 0.8; // [0.5:0.1:1.5]
 // NOTE: If you make SHEATH_LIP_HEIGHT shorter you may want to increase SHEATH_LIP_OVERHANG a bit to prevent it from squishing its way through the top of the body (which can happen if you're pressing really hard trying to snap it into the top plate).
@@ -126,23 +133,24 @@ BODY_TAPER = 1.1;
 // How thick the walls of the sheath will be (the part the stem slides inside of)
 SHEATH_WALL_THICKNESS = 1.2; // Doesn't need to be quite as thick/strong as the switch's body
 // How much wiggle room the sheath gets as it slides into the body
-SHEATH_TOLERANCE = 0.15;
+SHEATH_TOLERANCE = 0.24;
 // Wiggle room for the magnet where it gets inserted into the sheath (default: 0.1 for strong hold). NOTE: If you have problems with the sheath breaking when you insert the magnet just make this big (e.g. 0.25) and just use some glue.
-SHEATH_MAGNET_DIAMETER_TOLERANCE = 0.1;
+SHEATH_MAGNET_DIAMETER_TOLERANCE = 0.2; // EDIT: 0.1
 // TIP FOR RESIN PRINTERS: Resin tends to be brittle so to prevent cracking when inserting the magnet you may want to set SHEATH_MAGNET_DIAMETER_TOLERANCE to something like 0.1 and squirt some resin on the magnet after insertion to hold it in place.
-// The tolerance for the magnet wall in the sheath - helpful when smashing the sheath into the body doesn't work and results in breaks/warped switches.
-SHEATH_MAGNET_WALL_TOLERANCE = 0.04;
 // The wall thickness for the magnet in the sheath
-SHEATH_MAGNET_WALL_THICKNESS = MAGNET_WALL_THICKNESS - SHEATH_MAGNET_WALL_TOLERANCE;
+SHEATH_MAGNET_WALL_THICKNESS = MAGNET_WALL_THICKNESS - 0.04;
 // How much the sheath lip sticks out on top of the switch body
 SHEATH_LIP_OVERHANG = 1;
 // Controls the "spread" of the notches >< on the (inside) sides of the sheath (they're rotated this many degrees so they get farther apart as the stem progresses down the length of the sheath; this is to ensure the least amount of friction when returning to keyup).  IF YOU INCREASE TRAVEL SIGNIFICANTLY YOU MAY WANT TO ADJUST THIS but otherwise probably leave it alone.
 SHEATH_NOTCH_ANGLE = 1;
 // NOTE: Set SHEATH_NOTCH_ANGLE to 0 to have perfectly straight notches >< (not recommended).  If you do this you'll need to be more careful with your STEM_TOLERANCE setting.
 // How thick the little wall at the end of the sheath will be.  By default there's no wall/end stop which means that the stem can be easily removed but will also smack into whatever's underneath the switch when you press it (e.g. the sensor or LED on the PCB or the case covering those things).  If you set this to something like 0.8 you'll get a wall of sorts that prevents the stem from coming out (like, ever haha) and will also prevent it from hitting anything below the switch.  It makes it so you can press pretty hard on keycaps (to insert them) without having to worry that your brute strength will break your LEDs/sensors.  NOTE: This feature requires some flex in the plastic body of the sheath in order for the stem to snap into its channel so resin users be forewarned.
-SHEATH_END_STOP_THICKNESS = 0.0; // [0.0:0.1:1.2]
+SHEATH_END_STOP_THICKNESS = 0.4; // [0.0:0.1:1.2]
 // NOTE: If your keyboard has something underneath the switch at the correct TOTAL_TRAVEL distance you don't need the end stopper and can set SHEATH_END_STOP_THICKNESS to 0.  If you *do* want a stopper a value of 0.5 is usually good for a 0.4mm nozzle.
 // These SHEATH_CLIP_* parameters control the little clips on the sheath that let it snap-fit into the body (probably leave these alone unless you're working with something other than PLA/PETG that's either much softer or much more brittle)...
+// Controls how long the stopper is under the stem in the sheath
+SHEATH_END_STOP_RATIO = 2.1;
+
 // Controls the thickness of the clips on the side of the sheath (i.e. how much they stick out)
 SHEATH_CLIP_HEIGHT = 0.5;
 // Controls how long the clips on the side of the sheath will be (should only ever need to be adjusted if you make sigificant changes to SHEATH_WALL_THICKNESS)
@@ -338,6 +346,7 @@ for (item=RENDER) {
                     magnet_diameter_tolerance=SHEATH_MAGNET_DIAMETER_TOLERANCE,
                     magnet_wall_thickness=SHEATH_MAGNET_WALL_THICKNESS,
                     end_stop_thickness=SHEATH_END_STOP_THICKNESS,
+                    end_stop_ratio=SHEATH_END_STOP_RATIO,
                     magnet_void=MAGNET_VOID,
                     snap_pip_height=SHEATH_CLIP_HEIGHT,
                     snap_pip_length=SHEATH_CLIP_LENGTH,
@@ -386,7 +395,9 @@ for (item=RENDER) {
                     top_magnet_cover_thickness=BODY_MAGNET_COVER_THICKNESS,
                     flat_cross=STABILIZER_STEM,
                     cross_x_extra=STEM_CROSS_X_EXTRA,
-                    cross_y_extra=STEM_CROSS_Y_EXTRA);
+                    cross_y_extra=STEM_CROSS_Y_EXTRA,
+                    stem_extra=STEM_EXTRA,
+                    taper_length=STEM_TAPER_LENGTH);
     } else if (item=="stem_double_sided") {
         translate([-BODY_LENGTH/1.25,-TOTAL_TRAVEL/1.15,TOTAL_TRAVEL+COVER_THICKNESS+SHEATH_LIP_HEIGHT+SHEATH_LENGTH+STEM_MAGNET_HEIGHT+MAGNET_WALL_THICKNESS*2+MAGNET_TOLERANCE+MAGNET_VOID+BODY_MAGNET_HEIGHT]) // STEM
             rotate([-90,0,0]) // Line it up so we can bring it closer

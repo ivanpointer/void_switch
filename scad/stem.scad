@@ -37,16 +37,15 @@ CHERRY_LED_PIN_2_Y_DISTANCE = 2.54;
 
 // Generates a cross (+) style Cherry MX stem:
 // NOTE: notch_angle only applies when using extra_tolerance (void space feature)
-module stem_cherry_cross(travel, diameter, sheath_length, wall_thickness, cover_thickness, magnet_height=2, magnet_diameter=4, magnet_tolerance=0, magnet_diameter_tolerance=-0.1, magnet_wall_thickness=0.5, lip_height=1, magnet_void=0.2, body_magnet_height=2, extra_tolerance=0, cross_height=CHERRY_CROSS_HEIGHT, top_magnet_cover_thickness=-0.5, notch_angle=1, flat_cross=false, cross_x_extra=0, cross_y_extra=0) {
+module stem_cherry_cross(travel, diameter, sheath_length, wall_thickness, cover_thickness, magnet_height=2, magnet_diameter=4, magnet_tolerance=0, magnet_diameter_tolerance=-0.1, magnet_wall_thickness=0.5, lip_height=1, magnet_void=0.2, body_magnet_height=2, extra_tolerance=0, cross_height=CHERRY_CROSS_HEIGHT, top_magnet_cover_thickness=-0.5, notch_angle=1, flat_cross=false, cross_x_extra=0, cross_y_extra=0, stem_extra=0, taper_length=0.5) {
     total_travel = travel+sheath_length+cover_thickness+lip_height;
 //    magnet_distance = 2.25; // Magnet's (edge) distance from the center of the switch (MUST BE UNCHANGING!)
     magnet_distance = sqrt((SENSOR_OFFSET[0]*SENSOR_OFFSET[0])+(SENSOR_OFFSET[1]*SENSOR_OFFSET[1]));
-    stem_length = total_travel+magnet_height+magnet_wall_thickness*2+magnet_tolerance+magnet_void-top_magnet_cover_thickness+body_magnet_height;
+    stem_length = total_travel+magnet_height+magnet_wall_thickness*2+magnet_tolerance+magnet_void-top_magnet_cover_thickness+body_magnet_height+stem_extra;
     flat_back_tolerance = extra_tolerance/4; // The flat side opposes a 45° angle which means it'll get too much wiggle room if we just use the normal tolerance value.
     adjusted_magnet_diameter = magnet_diameter - magnet_diameter_tolerance; // Negative tolerance by default so the magnet gets held tight (cram it in there!)
     // TIP FOR RESIN PRINTERS: To avoid cracking set magnet_diameter_tolerance to 0 and squirt some resin in there before inserting the magnet.
     // NOTE: Because we add a bit extra to the end of the connector there's +1mm in a few places
-    taper_length = 0.5; // Goes at the end of the stem to work around 3D printing "corner bulge" that can result in stems getting stuck down
     translate([0,stem_length/2,0]) {
         difference() {
             translate([
@@ -155,7 +154,7 @@ module stem_cherry_cross(travel, diameter, sheath_length, wall_thickness, cover_
                                     diameter/2.5,
                                     total_travel+magnet_height+magnet_tolerance], center=true);
             // Taper the end a smidge to reduce the likelihood of first-layer squish causing an issue
-                            translate([0,-diameter*1.5,0]) rotate([45,0,0])
+                            translate([0,-diameter*1.57,0]) rotate([45,0,0])
                                 cube([diameter*2,diameter*2,diameter*2], center=true);
                             // This taper also makes inserting the stem easier
                         }

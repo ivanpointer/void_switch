@@ -19,11 +19,11 @@ CHERRY_CROSS_LENGTH = 4; // Length of the - and the | in the +
 
 // This fits into the switch body--what the stem slides in and out of
 module sheath_cherry_cross(length, stem_diameter, travel, cover_thickness,
-    stem_tolerance=0.2, sheath_tolerance=0.2, wall_thickness=1.4, lip_height=1, lip_overhang=1, top_magnet_height=2, top_magnet_diameter=4, top_magnet_cover_thickness=-0.5, magnet_height=2, magnet_diameter=4, magnet_wall_thickness=0.5, magnet_tolerance=0, magnet_diameter_tolerance=0, end_stop_thickness=0.8, magnet_void=0, snap_pip_height=0.4, snap_pip_length=1.5, snap_pip_width=1.5, notch_angle=1, bottom_clip_width=1.5, snug_magnet=true, inside_body=false, mark_tolerance=true) {
+    stem_tolerance=0.2, sheath_tolerance=0.2, wall_thickness=1.4, lip_height=1, lip_overhang=1, top_magnet_height=2, top_magnet_diameter=4, top_magnet_cover_thickness=-0.5, magnet_height=2, magnet_diameter=4, magnet_wall_thickness=0.5, magnet_tolerance=0, magnet_diameter_tolerance=0, end_stop_thickness=0.8, end_stop_ratio=2.25, magnet_void=0, snap_pip_height=0.4, snap_pip_length=1.5, snap_pip_width=1.5, notch_angle=1, bottom_clip_width=1.5, snug_magnet=true, inside_body=false, mark_tolerance=true) {
     sheath_width = stem_diameter+wall_thickness*2; // Side-to-side wall_thickness doesn't need to be as strong
     sheath_height = stem_diameter+wall_thickness*2; // Need wall_thickness to be full height above/below
     total_travel = travel+top_magnet_height;
-    stopper_height = CHERRY_CYLINDER_DIAMETER/2.25; // Height of the wall at the end (should be high enough to stop the stem when inserting a keycap but short enough that you can still slide it in (to the point where it clicks/snaps into place)
+    stopper_height = CHERRY_CYLINDER_DIAMETER/end_stop_ratio; // Height of the wall at the end (should be high enough to stop the stem when inserting a keycap but short enough that you can still slide it in (to the point where it clicks/snaps into place)
     sheath_overall_length = (
         cover_thickness+length+total_travel-top_magnet_cover_thickness
         +magnet_height+magnet_wall_thickness*2+magnet_tolerance
