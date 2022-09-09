@@ -7,7 +7,7 @@ CHERRY_CROSS_LENGTH = 4; // Length of the - and the | in the +
 
 // TODO: Document all these args
 // The main housing of the switch that the sheath slides into
-module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_wall_thickness=1.2, sheath_length=3, cover_overhang=1, cover_thickness=0.6, plate_thickness=1.5, plate_tolerance=0.2, stem_diameter=4.1, sheath_tolerance=0.2, lip_height=1, top_magnet_height=2, top_magnet_diameter=6, top_magnet_cover_thickness=-0.5, magnet_height=1.5, magnet_wall_thickness=0.5, magnet_tolerance=0.15, magnet_void=0.0, sheath_end_stop_thickness=0.8, corner_radius=0.5, droop_extra=0.2, sheath_clip_width=1.5, top_clip_hole_length=2.15, top_clip_hole_width=3.15, stem_tolerance=0.15, bridge_thickness=0.3, sheath_snug_magnet=true, sheath_inside_body=false, height=0, version_text="") {
+module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_wall_thickness=1.2, sheath_length=3, cover_overhang=1, cover_thickness=0.6, plate_thickness=1.5, plate_tolerance=0.2, stem_diameter=4.1, sheath_tolerance=0.2, lip_height=1, top_magnet_height=2, top_magnet_diameter=6, top_magnet_cover_thickness=-0.5, magnet_height=1.5, magnet_wall_thickness=0.5, magnet_tolerance=0.15, magnet_void=0.0, sheath_end_stop_thickness=0.8, corner_radius=0.5, droop_extra=0.2, sheath_clip_width=1.5, top_clip_hole_length=2.15, top_clip_hole_width=3.15, stem_tolerance=0.15, bridge_thickness=0.3, sheath_snug_magnet=true, sheath_inside_body=false, height=0, version_text="", with_heat_set=false) {
     total_travel = travel+top_magnet_height; // Actual total travel
     // How far into the body the stem shroud goes (so we can calculate depth)
     sheath_depth = (
@@ -184,7 +184,24 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
                                 bridge_thickness+0.01], center=true);
                 }
             }
+
+            // Heat set for components for builds like the dactyl
+            if (with_heat_set) {
+                heat_set_hole_top=2.8; // diameter
+                heat_set_hole_taper=1.1;
+                heat_set_hole_bottom=heat_set_hole_top/heat_set_hole_taper;
+                heat_set_hole_depth=3.9;
+                heat_set_height=heat_set_hole_depth+1.5;
+                heat_set_wall_thickness=0.5;
+                heat_set_radius=(heat_set_hole_top+(heat_set_wall_thickness*2))/2;
+
+                translate([((length/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness,((width/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness,body_height-(heat_set_height/2)]) difference() {
+                    cylinder(h=heat_set_height, r=heat_set_radius, center=true);
+                    color("blue") translate([0,0, (heat_set_height/2)-(heat_set_hole_depth/2)+0.02]) cylinder(h=heat_set_hole_depth, r1=heat_set_hole_bottom/2, r2=heat_set_hole_top/2, center=true);
+                }
+            }
         }
+
         // Cutout for the sheath to snap into (has something to do with stem diameter):
         center_adjust = (sheath_height/2-sheath_wall_thickness*1.5)*1.45+stem_tolerance*1.5;
         // NOTE: center_adjust matches how high off the floor the Cherry cross (+) is in stem.scad.  This allows us to accurately position the sheath so that the stem sits dead center.
