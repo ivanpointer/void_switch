@@ -187,12 +187,12 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
 
             // Heat set for components for builds like the dactyl
             if (with_heat_set) {
-                heat_set_hole_top=2.8; // diameter
+                heat_set_hole_top=3.3; // diameter
                 heat_set_hole_taper=1.1;
                 heat_set_hole_bottom=heat_set_hole_top/heat_set_hole_taper;
                 heat_set_hole_depth=3.9;
                 heat_set_height=heat_set_hole_depth+1.5;
-                heat_set_wall_thickness=0.5;
+                heat_set_wall_thickness=0.65;
                 heat_set_radius=(heat_set_hole_top+(heat_set_wall_thickness*2))/2;
 
                 translate([((length/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness,((width/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness,body_height-(heat_set_height/2)]) difference() {
@@ -275,7 +275,7 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
         if (version_text) {
             // Mark the side indicating the magnet_void
             translate([length/2.15,3.15,cover_thickness+4]) rotate([-90,0,-90]) linear_extrude(1)
-                text(version_text, size=3.25, font="Ubuntu:style=Bold");
+                text(version_text, size=2.8, font="Ubuntu:style=Bold");
         } else {
             // Mark the side indicating the magnet_void
             gap = magnet_void ? magnet_void : "0.0"; // So it stays centered

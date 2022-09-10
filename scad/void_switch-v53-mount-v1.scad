@@ -41,7 +41,7 @@ use <utils.scad>
 // IMPORTANT VARIABLES (customize to your liking):
 
 // Renders the current version into the body and sheath for rapid iteration.  Leave this blank to extrude the settings in, instead.
-VERSION_TEXT = "v53a";
+VERSION_TEXT = "v53b";
 
 // The amount of space interposed between the magnets. Controls how strong the switch will be; The higher the value the less force will be required to press the switch. Look at the console output to see the calculated switch strength (e.g. "NOTE: ESTIMATED STRENGTH/FORCE: ~56g"). Highly dependent on the strength and thickness of your magnets.
 MAGNET_VOID = 0.12; // [0.1:0.1:3]
@@ -171,8 +171,8 @@ $fn = 128;
 /* [What to Render] */
 
 // Choose what to render. Options are: "body", "sheath", "stem", "body+sheath" (for resin/high res printers), "%body" (for transparent body), "visualize_keyup", "visualize_keydown", "switch_plate". Example to visualize the switch sitting in your keyboard: ["%body", "visualize_keyup", "switch_plate"];
-RENDER = ["body", "sheath"];
-//RENDER = ["stem"];
+//RENDER = ["body", "sheath"];
+RENDER = ["stem"];
 //RENDER = ["sheath_double_sided", ""];
 // You can combine the body and sheath into a single unit if you have a resin printer since the resolution is tight enough that you don't need to worry about the orientation of the layer lines:
 //RENDER = ["body+sheath", "stem"];
