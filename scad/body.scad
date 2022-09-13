@@ -187,15 +187,17 @@ module switch_body(length, width, travel, taper=1.1, wall_thickness=1.4, sheath_
 
             // Heat set for components for builds like the dactyl
             if (with_heat_set) {
-                heat_set_hole_top=3.3; // diameter
+                heat_set_hole_top=3.1; // diameter
                 heat_set_hole_taper=1.1;
                 heat_set_hole_bottom=heat_set_hole_top/heat_set_hole_taper;
                 heat_set_hole_depth=3.9;
                 heat_set_height=heat_set_hole_depth+1.5;
-                heat_set_wall_thickness=0.65;
+                heat_set_wall_thickness=0.6;
                 heat_set_radius=(heat_set_hole_top+(heat_set_wall_thickness*2))/2;
+                heat_set_offset=0.1;
 
-                translate([((length/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness,((width/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness,body_height-(heat_set_height/2)]) difference() {
+                translate([
+                    ((length/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness+heat_set_offset,((width/2)/taper)-wall_thickness-(heat_set_hole_top/2)+heat_set_wall_thickness+heat_set_offset,body_height-(heat_set_height/2)]) difference() {
                     cylinder(h=heat_set_height, r=heat_set_radius, center=true);
                     color("blue") translate([0,0, (heat_set_height/2)-(heat_set_hole_depth/2)+0.02]) cylinder(h=heat_set_hole_depth, r1=heat_set_hole_bottom/2, r2=heat_set_hole_top/2, center=true);
                 }
